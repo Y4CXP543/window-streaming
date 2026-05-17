@@ -48,24 +48,50 @@ fn kill_process(window_id: usize) !void {
     }
 }
 
+fn update_ffmpeg_description(_: win.HWINEVENTHOOK, _: win.DWORD, hwnd: win.HWND, _: win.LONG, _: win.LONG, _: win.DWORD, _: win.DWORD) callconv(.c) void {
+    if (hwnd != null) {
+        var buf: [1024]u8 = undefined;
+        const window_title = window_title_by_hwnd(hwnd, buf[0..]);
+        std.debug.print("Window title changed to {s}\n", .{window_title});
+    }
+}
+
+fn window_title_by_hwnd(hwnd: win.HWND, buf: []u8) []const u8 {
+    const utf16_buf = allocator.alloc(u16, 256) catch return "";
+    defer allocator.free(utf16_buf);
+
+    const length = win.GetWindowTextW(hwnd, utf16_buf.ptr, @intCast(utf16_buf.len));
+    if (length < 1) {
+        return "";
+    }
+    std.debug.print("GetWindowTextW: {}\n", .{length});
+
+    const utf8_len = std.unicode.utf16LeToUtf8(
+        buf,
+        utf16_buf[0..@intCast(length)],
+    ) catch 0;
+    std.debug.print("TEST: {s}\n", .{buf[0..utf8_len]});
+    return buf[0..@intCast(length)];
+}
+
 fn spawn_ffmpeg(_: win.HWINEVENTHOOK, _: win.DWORD, hwnd: win.HWND, _: win.LONG, _: win.LONG, _: win.DWORD, _: win.DWORD) callconv(.c) void {
     if (hwnd != null) {
-        std.debug.print("result: {}", .{win.IsWindowVisible(hwnd)});
         if (win.IsWindowVisible(hwnd) != 0) {
-            std.debug.print("hwnd\n", .{});
-            var buf: [64]u8 = undefined;
-            _ = win.GetWindowTextA(hwnd, &buf, buf.len);
-            const expected = "Firefox";
+            var buf: [1024]u8 = undefined;
+            const window_title = window_title_by_hwnd(hwnd, buf[0..]);
+
+            const expected = "firefox";
             const window_id = @intFromPtr(hwnd);
-            const exeName = hwndExeName(hwnd) catch "UNKNOWN";
-            std.debug.print("exe name: {s}\n", .{exeName});
+            const executable = hwndExeName(hwnd) catch "UNKNOWN";
 
-            std.debug.print("Handled window {s} \n", .{buf});
-
-            if (std.mem.indexOf(u8, &buf, expected) != null) {
+            if (std.mem.indexOf(u8, executable, expected) != null) {
+                std.debug.print("Handled window {s} exe name: {s} \n", .{ window_title, executable });
                 if (portservice) |ps| {
                     if (janus_instance) |ji| {
+                        _ = win.SetWinEventHook(win.EVENT_OBJECT_NAMECHANGE, win.EVENT_OBJECT_NAMECHANGE, null, &update_ffmpeg_description, 0, 0, win.WINEVENT_OUTOFCONTEXT | win.WINEVENT_SKIPOWNPROCESS);
+
                         const openedPort = ps.get();
+
                         std.debug.print("Starting ffmpeg process port {}\n", .{openedPort});
                         ffmpeg_process(window_id, openedPort) catch {
                             std.log.debug("Unable spawn ffmpeg process", .{});
@@ -73,8 +99,8 @@ fn spawn_ffmpeg(_: win.HWINEVENTHOOK, _: win.DWORD, hwnd: win.HWND, _: win.LONG,
                         std.debug.print("Started ffmpeg process!\n", .{});
 
                         std.debug.print("Initializing janus stream {}\n", .{openedPort});
-                        ji.startStream(openedPort, &buf) catch {
-                            std.log.debug("Unable register janus stream", .{});
+                        ji.startStream(openedPort, window_title) catch |err| {
+                            std.debug.print("Unable register janus stream {s}\n", .{@errorName(err)});
                         };
                         std.debug.print("Initialized janus stream!\n", .{});
                     }
@@ -131,7 +157,7 @@ pub fn windowListener(port_service_opaque: *anyopaque, janus_instance_opaque: *a
     portservice = @ptrCast(@alignCast(port_service_opaque));
     janus_instance = @ptrCast(@alignCast(janus_instance_opaque));
 
-    _ = win.SetWinEventHook(win.EVENT_OBJECT_CREATE, win.EVENT_OBJECT_CREATE, null, &spawn_ffmpeg, 0, 0, win.WINEVENT_OUTOFCONTEXT | win.WINEVENT_SKIPOWNPROCESS);
+    _ = win.SetWinEventHook(win.EVENT_OBJECT_SHOW, win.EVENT_OBJECT_SHOW, null, &spawn_ffmpeg, 0, 0, win.WINEVENT_OUTOFCONTEXT | win.WINEVENT_SKIPOWNPROCESS);
     _ = win.SetWinEventHook(win.EVENT_OBJECT_END, win.EVENT_OBJECT_END, null, &close_ffmpeg, 0, 0, win.WINEVENT_OUTOFCONTEXT | win.WINEVENT_SKIPOWNPROCESS);
 
     var msg: win.MSG = undefined;

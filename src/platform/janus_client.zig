@@ -1,1 +1,201 @@
-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
+const std = @import("std");
+
+const PluginData = struct {
+    plugin: []const u8,
+    data: Data,
+};
+
+const JanusError = struct {
+    streaming: ?[]const u8 = null,
+    error_code: ?usize = null,
+    @"error": []const u8,
+    reason: []const u8,
+};
+
+const Stream = struct { id: ?i64 };
+
+const Data = struct {
+    id: ?i64 = null,
+    stream: ?Stream = null,
+    streaming: ?[]const u8 = null,
+    error_code: ?usize = null,
+    @"error": ?[]const u8 = null,
+};
+
+pub const JanusResponse = struct { janus: []const u8, session_id: ?usize = null, transaction: []const u8, sender: ?usize = null, data: ?Data = null, pluginData: ?PluginData = null, @"error": ?JanusError = null };
+
+pub const JanusClient = struct {
+    base_url: []const u8,
+    allocator: std.mem.Allocator,
+    transaction_counter: std.atomic.Value(u32),
+    mount_counter: std.atomic.Value(u32),
+
+    const Self = @This();
+
+    pub fn init(allocator: std.mem.Allocator, baseUrl: []const u8) Self {
+        return .{ .base_url = baseUrl, .allocator = allocator, .transaction_counter = std.atomic.Value(u32).init(1), .mount_counter = std.atomic.Value(u32).init(1) };
+    }
+
+    fn executeRequest(self: *Self, uri: std.Uri, payload: []const u8) ![]const u8 {
+        var client = std.http.Client{ .allocator = self.allocator };
+
+        std.debug.print("Execute request {s}://{s}:{?}/{s} payload:\n{s}\n", .{ uri.scheme, uri.host.?.percent_encoded, uri.port, uri.path.percent_encoded, payload });
+
+        var req = try client.request(.POST, uri, .{
+            .extra_headers = &.{.{ .name = "Content-Type", .value = "application/json" }},
+        });
+        defer req.deinit();
+        try req.sendBodyComplete(@constCast(payload));
+        var buf: [0]u8 = undefined;
+        var response = try req.receiveHead(&buf);
+        if (response.head.status != .ok) {
+            return error.NonOkResponse;
+        }
+        const result = try response.reader(&.{}).allocRemaining(self.allocator, .unlimited);
+        std.debug.print("Response {s}\n", .{result});
+
+        return result;
+    }
+
+    pub fn createSession(self: *Self) !i64 {
+        const url = try std.fmt.allocPrint(self.allocator, "{s}/janus", .{self.base_url});
+        defer self.allocator.free(url);
+        const uri = try std.Uri.parse(url);
+        const t_id = self.transaction_counter.fetchAdd(1, .seq_cst);
+        const payload: []u8 = try std.fmt.allocPrint(self.allocator,
+            \\{{
+            \\  "janus": "create",
+            \\  "transaction": "t{}"
+            \\}}
+        , .{t_id});
+        defer self.allocator.free(payload);
+
+        const body = try self.executeRequest(uri, payload);
+        defer self.allocator.free(body);
+
+        const parsed = try std.json.parseFromSlice(
+            JanusResponse,
+            self.allocator,
+            body,
+            .{
+                .ignore_unknown_fields = true,
+            },
+        );
+        defer parsed.deinit();
+        const value: JanusResponse = parsed.value;
+        if (value.data) |data| {
+            if (data.id) |id| {
+                return id;
+            }
+        }
+        return 0;
+    }
+
+    fn attachToPlugin(self: *Self, session_id: i64, plugin: []const u8) !i64 {
+        const url = try std.fmt.allocPrint(self.allocator, "{s}/janus/{}", .{ self.base_url, session_id });
+        defer self.allocator.free(url);
+        const uri = try std.Uri.parse(url);
+        const t_id = self.transaction_counter.fetchAdd(1, .seq_cst);
+        const payload: []u8 = try std.fmt.allocPrint(self.allocator,
+            \\{{
+            \\  "janus": "attach",
+            \\  "plugin": "{s}",
+            \\  "transaction": "t{}"
+            \\}}
+        , .{ plugin, t_id });
+        defer self.allocator.free(payload);
+
+        const body = try self.executeRequest(uri, payload);
+        defer self.allocator.free(body);
+
+        const parsed = try std.json.parseFromSlice(
+            JanusResponse,
+            self.allocator,
+            body,
+            .{
+                .ignore_unknown_fields = true,
+            },
+        );
+        defer parsed.deinit();
+        const value: JanusResponse = parsed.value;
+        if (value.data) |data| {
+            if (data.id) |id| {
+                return id;
+            }
+        }
+        return 0;
+    }
+
+    // 3
+    pub fn registerMountPoint(self: *Self, session_id: i64, handle_id: i64, port: usize, name: []const u8) !usize {
+        const url = try std.fmt.allocPrint(self.allocator, "{s}/janus/{}/{}", .{ self.base_url, session_id, handle_id });
+        defer self.allocator.free(url);
+        const uri = try std.Uri.parse(url);
+        const m_id = self.mount_counter.fetchAdd(1, .seq_cst);
+        const t_id = self.transaction_counter.fetchAdd(1, .seq_cst);
+        const payload: []u8 = try std.fmt.allocPrint(self.allocator,
+            \\{{
+            \\  "janus": "message",
+            \\  "transaction": "t{}",
+            \\  "body": {{
+            \\      "request": "create",
+            \\      "type": "rtp",
+            \\      "id": {},
+            \\      "name": "{s}",
+            \\      "description": "{s}",
+            \\      "video": true,
+            \\      "videopt": 96,
+            \\      "videocodec": "h264",
+            \\      "videoport": {}
+            \\}}
+            \\}}
+        , .{ t_id, m_id, name, name, port });
+        defer self.allocator.free(payload);
+
+        const body = try self.executeRequest(uri, payload);
+        defer self.allocator.free(body);
+        const parsed = try std.json.parseFromSlice(
+            JanusResponse,
+            self.allocator,
+            body,
+            .{
+                .ignore_unknown_fields = true,
+            },
+        );
+        defer parsed.deinit();
+        const value: JanusResponse = parsed.value;
+
+        if (value.data) |data| {
+            if (data.stream) |stream| {
+                if (stream.id) |id| {
+                    return @intCast(id);
+                }
+            }
+        }
+        return 0;
+    }
+
+    pub fn startStream(self: *Self, port: usize, name: []const u8) !void {
+        const plugin = "janus.plugin.streaming";
+
+        std.debug.print("Try to create session\n", .{});
+        const session_id = try self.createSession();
+        std.debug.print("Session created {}\n", .{session_id});
+
+        std.debug.print("Creating handle\n", .{});
+        const handle_id = try self.attachToPlugin(session_id, plugin);
+        std.debug.print("Created handle {}\n", .{handle_id});
+
+        std.debug.print("Registering mount point\n", .{});
+        const mount_id = try self.registerMountPoint(session_id, handle_id, port, name);
+        std.debug.print("Registered mount point {}\n", .{mount_id});
+    }
+
+    pub fn deleteSession() !usize {
+        return 0;
+    }
+
+    pub fn deleteMountpoint() !usize {
+        return 0;
+    }
+};
