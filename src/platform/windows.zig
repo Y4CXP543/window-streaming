@@ -1,1 +1,80 @@
-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
+const std = @import("std");
+const builtin = @import("builtin");
+
+const win = @cImport({
+    if (builtin.os.tag == .linux) {
+        @cInclude("/usr/x86_64-w64-mingw32/include/windows.h");
+    } else {
+        @cInclude("Windows.h");
+    }
+});
+
+var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+const allocator = gpa.allocator();
+var WINDOW_PROCESS: std.AutoHashMap(u64, *std.process.Child) = .init(allocator);
+
+fn ffmpeg_process(window_id: usize, port: u16) !void {
+    const rtp_base = "rtp://127.0.0.1:{}";
+    var rtp_buf: [rtp_base.len + 5]u8 = undefined; //5 chars = max port = 65535
+    const rtp_addr: []u8 = try std.fmt.bufPrint(&rtp_buf, "rtp://127.0.0.1:{}", .{port});
+
+    const max_usize_len = 20;
+    var window_id_buff: [max_usize_len]u8 = undefined;
+    const window_id_str: []u8 = try std.fmt.bufPrint(&window_id_buff, "{}", .{window_id});
+
+    var child = std.process.Child.init(&.{ "ffmpeg", "-f", "x11grab", "-window_id", window_id_str, "-i", ":1", "-payload_type", "96", "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2", "-vcodec", "libx264", "-x264-params", "keyint=25:min-keyint=25:scenecut=0:repeat-headers=1", "-g", "20", "-preset", "ultrafast", "-profile:v", "baseline", "-tune", "zerolatency", "-pix_fmt", "yuv420p", "-f", "rtp", rtp_addr }, allocator);
+    child.stdout_behavior = std.process.Child.StdIo.Ignore;
+    child.stderr_behavior = std.process.Child.StdIo.Ignore;
+    child.stdin_behavior = std.process.Child.StdIo.Ignore;
+
+    child.spawn() catch return;
+
+    try WINDOW_PROCESS.put(window_id, &child);
+}
+
+fn kill_process(window_id: usize) !void {
+    if (WINDOW_PROCESS.get(window_id)) |child| {
+        var ch: *std.process.Child = @constCast(child);
+        _ = ch.kill() catch {};
+        _ = WINDOW_PROCESS.remove(window_id);
+    }
+}
+
+fn spawn_ffmpeg(_: win.HWINEVENTHOOK, _: win.DWORD, hwnd: win.HWND, _: win.LONG, _: win.LONG, _: win.DWORD, _: win.DWORD) callconv(.c) void {
+    if (hwnd != null) {
+        var buf: [64]u8 = undefined;
+        _ = win.GetWindowTextA(hwnd, &buf, buf.len);
+        const expected = "Firefox";
+        const window_id = @intFromPtr(hwnd);
+        std.log.info("OPENED BUFF={s}\n", .{buf});
+        if (std.mem.indexOf(u8, &buf, expected) != null) {
+            std.log.info("hwnd=0x{x}\n", .{window_id});
+            std.log.info("New object buf={s}\n", .{buf});
+            ffmpeg_process(window_id, 8881) catch {};
+        }
+    }
+}
+
+fn close_ffmpeg(_: win.HWINEVENTHOOK, _: win.DWORD, hwnd: win.HWND, _: win.LONG, _: win.LONG, _: win.DWORD, _: win.DWORD) callconv(.c) void {
+    if (hwnd != null) {
+        var buf: [256]u8 = undefined;
+        _ = win.GetWindowTextA(hwnd, &buf, buf.len);
+        const expected = "Firefox";
+        const window_id = @intFromPtr(hwnd);
+        std.log.info("Close object buf={s}\n", .{buf});
+        if (std.mem.indexOf(u8, &buf, expected) != null) {
+            std.log.info("hwnd=0x{x}\n", .{window_id});
+            kill_process(window_id);
+        }
+    }
+}
+
+pub fn windowListener() !void {
+    _ = win.SetWinEventHook(win.EVENT_OBJECT_CREATE, win.EVENT_OBJECT_CREATE, null, &spawn_ffmpeg, 0, 0, win.WINEVENT_OUTOFCONTEXT | win.WINEVENT_SKIPOWNPROCESS);
+    _ = win.SetWinEventHook(win.EVENT_OBJECT_END, win.EVENT_OBJECT_END, null, &close_ffmpeg, 0, 0, win.WINEVENT_OUTOFCONTEXT | win.WINEVENT_SKIPOWNPROCESS);
+    var msg: win.MSG = undefined;
+    while (win.GetMessageA(&msg, null, 0, 0) != 0) {
+        _ = win.TranslateMessage(&msg);
+        _ = win.DispatchMessageA(&msg);
+    }
+}
