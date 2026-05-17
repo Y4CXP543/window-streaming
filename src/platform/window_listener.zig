@@ -1,1 +1,22 @@
-eNoADwPw/CDVhrjE1RRy4c0n6XvXbbA4td8icjJAdRm/Bgf10x3LvnoRp2TmoGO8DhNsxmpQCZ1SOSrwDQEGDypLlNlFnWZoasFjQqE4xcVy9ByCfI5+0iZhruRamCc6cT9cSroWjZSYtX6yt4wR+kd6ZT96LZFxiWPpcisIUmRjveudxCCfS2BkhMhhk1vGd8yzLZ7a4l53q2Um4UsKR+21wn4FdSdMQkuLMBu/oWmlQzgWHxe9ORc/hIjh9zhnZCYxcZXRxTeIydKWMPQMSJhiN5o8mTzRcXpAtG1eIjXsr9vNSLXlTw+1xy8COIZnJr5KZ7XJc22v+aAjbQo2pjxZqKuihwHDznYdl+NbjGid6qy6sHeOIKDqigB8o7r4ezcBLDF03Ny1DhmIdVvJh+zzFv3WveYj7BpGG4jlxOhVqw2cES/AU/jaem1iPVITR7utaQXGCBtphc2pHps0qE665AV0g59u+6MTq4ufM/0+pftEcCqn5sv2LrQfFOMeNWDwEPKjogf0XcIbJm5ziAcQtGN8HaP/l3Zp2s3PVjOgdLLiALDzA0jbAfCUuCR5IQSlV5z84m8YaE2gXA2NTVjRM99C5HQuoEII1nYxYM3Nva3gFz9fcBkbi1rLFzzNso4o45DqHa/ufFmlEgGKy9IFMydlj7ouYZq0p2z+rRvt6YM7bLkyGLFjASNevYwB1triXq45fVth9npn9r8CXUL9txQMeDUEsdeS4rRJ8szpaikpCi2lk6ITFExYX0Hn0WnlGWqtN7crQHITDa+JnndzCf69XuVyfNvyPs1RYCNa7xhKpuYocrlTm15tkFEeV2wBsyOkOKz8ORkXFizCQ2Z/ywFMegsW/qsDsnsv30JbilQibW6iqRujW5dJi1aELpLV8EvBUoXEzlqJcVjL3rPmAU0WZE+3ORyCmQyqsTh39ZFNfOTWiBr3Kh6azMn/bqsHnDSJBp0u/IZ2K3JvOsH7Oph1Oxy4cJkAwJ4TLXGzOK1I05UeGLlGoh2gbPOT+pNX3L6yj2oDoQAqPf/5asggyvIMwgEAAP//XxJ1yQ==
+const builtin = @import("builtin");
+const std = @import("std");
+const janus = @import("janus_client.zig");
+const openport = @import("open_port.zig");
+
+pub fn subscriteToEvents() !void {
+    const platform = switch (builtin.os.tag) {
+        .windows => @import("windows.zig"),
+        .linux => @import("linux.zig"),
+        else => @compileError("Unsupported platform"),
+    };
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    const allocator = gpa.allocator();
+    const base_url = "http://1.janus:8088";
+    var port_service = openport.PortService.init(100, 5000);
+    var janus_client = janus.JanusClient.init(allocator, base_url);
+
+    try platform.windowListener(
+        @ptrCast(&port_service),
+        @ptrCast(&janus_client),
+    );
+}

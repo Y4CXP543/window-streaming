@@ -1,5 +1,7 @@
 const std = @import("std");
 const builtin = @import("builtin");
+const janus = @import("janus_client.zig");
+const openport = @import("open_port.zig");
 
 const win = @cImport({
     if (builtin.os.tag == .linux) {
@@ -12,8 +14,12 @@ const win = @cImport({
 var gpa = std.heap.GeneralPurposeAllocator(.{}){};
 const allocator = gpa.allocator();
 var WINDOW_PROCESS: std.AutoHashMap(u64, *std.process.Child) = .init(allocator);
+var WINDOW_PORT: std.AutoHashMap(u64, usize) = .init(allocator);
 
-fn ffmpeg_process(window_id: usize, port: u16) !void {
+var portservice: ?*openport.PortService = null;
+var janus_instance: ?*janus.JanusClient = null;
+
+fn ffmpeg_process(window_id: usize, port: usize) !void {
     const rtp_base = "rtp://127.0.0.1:{}";
     var rtp_buf: [rtp_base.len + 5]u8 = undefined; //5 chars = max port = 65535
     const rtp_addr: []u8 = try std.fmt.bufPrint(&rtp_buf, "rtp://127.0.0.1:{}", .{port});
@@ -27,9 +33,11 @@ fn ffmpeg_process(window_id: usize, port: u16) !void {
     child.stderr_behavior = std.process.Child.StdIo.Ignore;
     child.stdin_behavior = std.process.Child.StdIo.Ignore;
 
-    child.spawn() catch return;
+    try child.spawn();
+    std.debug.print("Spawned child process!\n", .{});
 
     try WINDOW_PROCESS.put(window_id, &child);
+    try WINDOW_PORT.put(window_id, port);
 }
 
 fn kill_process(window_id: usize) !void {
@@ -42,15 +50,36 @@ fn kill_process(window_id: usize) !void {
 
 fn spawn_ffmpeg(_: win.HWINEVENTHOOK, _: win.DWORD, hwnd: win.HWND, _: win.LONG, _: win.LONG, _: win.DWORD, _: win.DWORD) callconv(.c) void {
     if (hwnd != null) {
-        var buf: [64]u8 = undefined;
-        _ = win.GetWindowTextA(hwnd, &buf, buf.len);
-        const expected = "Firefox";
-        const window_id = @intFromPtr(hwnd);
-        std.log.info("OPENED BUFF={s}\n", .{buf});
-        if (std.mem.indexOf(u8, &buf, expected) != null) {
-            std.log.info("hwnd=0x{x}\n", .{window_id});
-            std.log.info("New object buf={s}\n", .{buf});
-            ffmpeg_process(window_id, 8881) catch {};
+        std.debug.print("result: {}", .{win.IsWindowVisible(hwnd)});
+        if (win.IsWindowVisible(hwnd) != 0) {
+            std.debug.print("hwnd\n", .{});
+            var buf: [64]u8 = undefined;
+            _ = win.GetWindowTextA(hwnd, &buf, buf.len);
+            const expected = "Firefox";
+            const window_id = @intFromPtr(hwnd);
+            const exeName = hwndExeName(hwnd) catch "UNKNOWN";
+            std.debug.print("exe name: {s}\n", .{exeName});
+
+            std.debug.print("Handled window {s} \n", .{buf});
+
+            if (std.mem.indexOf(u8, &buf, expected) != null) {
+                if (portservice) |ps| {
+                    if (janus_instance) |ji| {
+                        const openedPort = ps.get();
+                        std.debug.print("Starting ffmpeg process port {}\n", .{openedPort});
+                        ffmpeg_process(window_id, openedPort) catch {
+                            std.log.debug("Unable spawn ffmpeg process", .{});
+                        };
+                        std.debug.print("Started ffmpeg process!\n", .{});
+
+                        std.debug.print("Initializing janus stream {}\n", .{openedPort});
+                        ji.startStream(openedPort, &buf) catch {
+                            std.log.debug("Unable register janus stream", .{});
+                        };
+                        std.debug.print("Initialized janus stream!\n", .{});
+                    }
+                }
+            }
         }
     }
 }
@@ -64,14 +93,47 @@ fn close_ffmpeg(_: win.HWINEVENTHOOK, _: win.DWORD, hwnd: win.HWND, _: win.LONG,
         std.log.info("Close object buf={s}\n", .{buf});
         if (std.mem.indexOf(u8, &buf, expected) != null) {
             std.log.info("hwnd=0x{x}\n", .{window_id});
-            kill_process(window_id);
+            kill_process(window_id) catch {};
+        }
+
+        if (WINDOW_PORT.get(window_id)) |port| {
+            if (portservice) |ps| {
+                ps.release(port) catch {};
+            }
+            _ = WINDOW_PORT.remove(window_id);
         }
     }
 }
 
-pub fn windowListener() !void {
+pub fn hwndExeName(hwnd: win.HWND) ![]const u8 {
+    var pid: u32 = 0;
+    _ = win.GetWindowThreadProcessId(hwnd, &pid);
+    if (pid == 0)
+        return error.InvalidWindow;
+
+    const process = win.OpenProcess(win.PROCESS_QUERY_LIMITED_INFORMATION, 0, pid) orelse return error.OpenProcessFailed;
+    defer _ = win.CloseHandle(process);
+    var buffer: [win.MAX_PATH]u16 = undefined;
+    var size: u32 = buffer.len;
+
+    if (win.QueryFullProcessImageNameW(process, 0, &buffer, &size) == 0)
+        return error.QueryFailed;
+
+    const utf8_path = try std.unicode.utf16LeToUtf8Alloc(
+        allocator,
+        buffer[0..size],
+    );
+
+    return std.fs.path.basename(utf8_path);
+}
+
+pub fn windowListener(port_service_opaque: *anyopaque, janus_instance_opaque: *anyopaque) !void {
+    portservice = @ptrCast(@alignCast(port_service_opaque));
+    janus_instance = @ptrCast(@alignCast(janus_instance_opaque));
+
     _ = win.SetWinEventHook(win.EVENT_OBJECT_CREATE, win.EVENT_OBJECT_CREATE, null, &spawn_ffmpeg, 0, 0, win.WINEVENT_OUTOFCONTEXT | win.WINEVENT_SKIPOWNPROCESS);
     _ = win.SetWinEventHook(win.EVENT_OBJECT_END, win.EVENT_OBJECT_END, null, &close_ffmpeg, 0, 0, win.WINEVENT_OUTOFCONTEXT | win.WINEVENT_SKIPOWNPROCESS);
+
     var msg: win.MSG = undefined;
     while (win.GetMessageA(&msg, null, 0, 0) != 0) {
         _ = win.TranslateMessage(&msg);
